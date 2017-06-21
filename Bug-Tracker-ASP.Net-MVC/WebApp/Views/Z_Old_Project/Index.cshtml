@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Models.Project>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           <label for="ProjectName" class="control-label col-md-2" > Project </label>
+        </th>
+        <th>
+            <label for="Description" class="control-label col-md-2"> Description </label>
+        </th>
+        <th>
+            <label for="Manager" class="control-label col-md-2"> Manager </label>
+        </th>
+        <th>
+            <label for="InitTime" class="control-label col-md-2"> Init Time </label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+           @item.Name
+        </td>
+        <td>
+            @item.Description
+        </td>
+        @{
+            BusinessLogic.UserBL userBL = new BusinessLogic.UserBL();
+        }
+        <td>
+            @{ 
+                string managerDetailUrl = "Acount/Details/" + item.ManagerID.Trim();
+            }
+            <a href = @managerDetailUrl > @userBL.GetUserByID(item.ManagerID).UserName</a>
+        </td>
+        <td>
+            @item.InitTime
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.ProjectID }) |
+        </td>
+    </tr>
+}
+
+</table>

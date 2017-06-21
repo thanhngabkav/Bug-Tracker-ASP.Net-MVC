@@ -1,0 +1,121 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Models.Bug>
+
+@{
+    ViewBag.Title = "Inprocess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inprocess</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            DetectionTime
+        </th>
+        <th>
+            Owner
+        </th>
+        <th>
+            Priority
+        </th>
+        <th>
+            Project
+        </th>
+        <th>
+            Status
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetectionTime)
+            </td>
+            @{
+                BusinessLogic.UserBL userBL = new BusinessLogic.UserBL();
+                string userDetailsUrl = "/Account/Details?userID=" + item.Owner.Trim();
+                Models.User user = userBL.GetUserByID(item.Owner);
+            }
+            <td>
+                <a href=@userDetailsUrl>@user.UserName</a>
+            </td>
+            @{
+                BusinessLogic.BugPriorityBL priorityBL = new BusinessLogic.BugPriorityBL();
+                Models.BugPriority priority = priorityBL.GetBugPriorityByID(item.PriorityID);
+            }
+            @switch (priority.PriorityID)
+            {
+                case 1:
+            <td> <button class="btn btn-danger btn-sm">@priority.PriorityName</button></td>
+                    break;
+                case 2:
+            <td> <button class="btn bg-warning btn-sm">@priority.PriorityName</button></td>
+                    break;
+                case 3:
+                    <td> <button class="btn bg-primary btn-sm">@priority.PriorityName</button></td>
+                    break;
+                case 4:
+                    <td> <button class="btn btn-sm">@priority.PriorityName</button></td>
+                    break;
+                default:
+                    <td> <button class="btn btn-default btn-sm">@priority.PriorityName</button></td>
+                    break;
+            }
+
+            @{
+                BusinessLogic.ProjectBL projectBL = new BusinessLogic.ProjectBL();
+                Models.Project project = projectBL.GetProjectById(item.ProjectID);
+            }
+            <td>
+                @project.Name
+            </td>
+            @{
+                BusinessLogic.BugStatusBL bugStatusBL = new BusinessLogic.BugStatusBL();
+                Models.BugStatus bugStatus = bugStatusBL.GetBugStatusByID(item.StatusID);
+            }
+            @switch (bugStatus.BugStatusID)
+            {
+                case 1:
+                    <td> <button class="btn btn-danger btn-sm">@bugStatus.StatusName</button></td>
+                    break;
+                case 2:
+                    <td> <button class="btn bg-warning btn-sm">@bugStatus.StatusName</button></td>
+                    break;
+                case 3:
+                    <td> <button class="btn bg-success btn-sm">@bugStatus.StatusName</button></td>
+                    break;
+                case 4:
+                    <td> <button class="btn btn-sm">@bugStatus.StatusName</button></td>
+                    break;
+                default:
+                    <td> <button class="btn btn-default btn-sm">@bugStatus.StatusName</button></td>
+                    break;
+            }
+            @{
+                string detailsLink = "/Bugs/Details?bugID=" + item.BugID.Trim();
+                string processLink = "Developer/Bugs/SendProcessingRequest?bugID=" + item.BugID.Trim();
+                string editLink = "/Tester/Bugs/EditBug?bugID=" + item.BugID.Trim();
+                string deleteLink = "/Tester/Bugs/DeleteBug?bugID=" + item.BugID.Trim();
+            }
+            <td>
+                <a href=@detailsLink class="btn btn-info btn-sm"> Details</a>
+                @if (user.UserGroupID == 4)
+                {
+                    <a href=@processLink class="btn btn-success btn-sm"> ReTest</a>
+                }
+                @if (user.UserGroupID == 3)
+                {
+                    <a href=@editLink class="btn btn-info btn-sm"> Edit</a>
+                    <a href=@deleteLink class="btn btn-warning btn-sm"> Delete</a>
+                }
+            </td>
+        </tr>
+}
+
+</table>
+<div class="col-md-12 text-center">
+    @Html.PagedListPager(Model, newPage => Url.Action("Index", new { page = newPage }))
+</div>

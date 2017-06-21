@@ -1,0 +1,69 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Models.Bug>
+
+@{
+    ViewBag.Title = "TesterBug";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TesterBug</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            DetectionTime
+        </th>
+       
+        <th>
+            Priority
+        </th>
+        <th>
+            Project
+        </th>
+        <th>
+            StatusID
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DetectionTime)
+        </td>
+        @{
+            BusinessLogic.BugPriorityBL priorityBL = new BusinessLogic.BugPriorityBL();
+            Models.BugPriority priority = priorityBL.GetBugPriorityByID(item.PriorityID);
+        }
+        <td>
+            @priority.PriorityName
+        </td>
+        @{
+            BusinessLogic.ProjectBL projectBL = new BusinessLogic.ProjectBL();
+            Models.Project project = projectBL.GetProjectById(item.ProjectID);
+        }
+        <td>
+            @project.Name
+        </td>
+        @{
+            BusinessLogic.BugStatusBL bugStatusBL = new BusinessLogic.BugStatusBL();
+            Models.BugStatus bugStatus = bugStatusBL.GetBugStatusByID(item.StatusID);
+        }
+        <td>
+            @bugStatus.StatusName
+        </td>
+    </tr>
+}
+
+</table>
+<div class="col-md-12 text-center">
+    @{
+        string testerid = Model[0].Owner;
+    }
+    @Html.PagedListPager(Model, newPage => Url.Action("TesterBug", new { testerD = testerid, page = newPage }))
+</div>
+

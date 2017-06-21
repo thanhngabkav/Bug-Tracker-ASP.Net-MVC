@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Models.DeveloperAllotProject>
+@{
+    ViewBag.Title = "AllotProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-info">Allot  Developer</h2>
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @{
+            int i = 0;
+            string projectid_name = "allotProject["+ i +"].ProjectID";
+            string developerid_name = "allotProject["+ i + "].DeveloperID";
+
+        }
+   
+            <div class="form-group">
+                <label class="control-label col-md-2" for=@projectid_name>Project</label>
+                <div class="col-md-6">
+                    <input class="form-control text-box single-line" data-val="true" id=@projectid_name name=@projectid_name type="text" value=@ViewBag.ProjectID readonly>
+                    <span class="field-validation-valid text-danger" data-valmsg-for=@projectid_name data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                    <label class="control-label col-md-2" for=@developerid_name>Developer</label>
+                    <div class="col-md-6">
+                        <select class="form-control" id=@developerid_name name=@developerid_name>
+                            @{
+                                foreach (SelectListItem item in (SelectList)ViewBag.DeveloperID)
+                                {
+                                    <option value=@item.Value.ToString()>@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <span class="field-validation-valid text-danger" data-valmsg-for=@developerid_name data-valmsg-replace="true"></span>
+                    </div>
+            </div>
+            <div id="addForm"></div>
+            <div class="form-group">
+                <label class="control-label col-md-2"><button id="addbutton" onclick="addForm()" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></button></label>
+            </div>
+        </div>    
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+ }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    function addForm() {
+        $("#addForm").html("<span class='text-info'>Tính Năng Đang Hoàn Thiện</span>")
+    }
+</script>

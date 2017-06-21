@@ -1,0 +1,128 @@
+﻿@using Models;
+@using WebApp.Models;
+@using BusinessLogic;
+@{
+
+    UserBL userBL = new UserBL();
+    User user =  userBL.GetUserByID(((UserSession)Session[UserSession.SessionName]).UserID);
+    int userGroupID = user.UserGroupID;
+    RolesBL roleBL = new RolesBL();
+    string[] userRoles = roleBL.GetUserRoles(userGroupID);
+}
+<style>
+    #sidebar-wrapper ul .dropdown-menu{
+        background: #fafafa;
+        color:black;
+        position:relative;
+        margin-left:30px;
+    }
+    .toggled #sidebar-wrapper ul .dropdown-menu{
+        position:fixed;
+        margin-left:-10px;
+    }
+</style>
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav" style="margin-left:0;">
+        <li class="sidebar-brand">
+            <a href="#menu-toggle" id="menu-toggle" style="margin-top:20px;float:right;"> <i class="glyphicon glyphicon-list-alt" style="font-size:20px !Important;" aria-hidden="true"></i></a>
+        </li>
+        @{
+            if (userRoles.Contains("AdminWorkSpace"))
+            {
+                 <!-- Admin work space-->
+                <li id="section" class="dropdown">
+                    <a href="/Admin/Users" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>User</span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="/Admin/Users">All User</a></li>
+                        @{
+                            UserGroupBL usergroupBL = new UserGroupBL();
+                            List<UserGroup> listUserGroup = usergroupBL.GetAllUserGroup();
+                            foreach (UserGroup x in listUserGroup)
+                            {
+                                string url = "/Admin/Users/UserGroup/?userGroupID=" + x.UserGroupID;
+                                <li role="presentation"> <a href=@url> @x.UserGroupName </a> </li>
+                            }
+                        }
+                        <li role="presentation"><a href="/Admin/Users/CreateUser">Create User</a></li>
+                    </ul>
+                </li>
+                <li id="section">
+                    <a href="/Admin/Projects"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span> Projects</span> </a>
+                </li>
+                <li id="section">
+                    <a href="/Admin/UserGroup"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>User Group</span> </a>
+                </li>
+                <li id="section">
+                    <a href="/Admin/BugStatues"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Bug Status</span> </a>
+                </li>
+                <li id="section">
+                    <a href="/Admin/BugPrioritues"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Bug Priority</span> </a>
+                </li>
+                <li id="section">
+                    <a href="/Home/Future"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>User Group_Role</span> </a>
+                </li>
+                <li id="section">
+                    <a href="/Admin/Roles"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Roles</span> </a>
+                </li>
+                <li id="section">
+                    <a href="/Home/Future"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Reports</span> </a>
+                </li>
+        <!--End Admin work space-->
+                            }
+        }
+       @{
+           if (userRoles.Contains("ProjectManagerWorkSpace"))
+           {
+                <!--Project Manager work space-->
+                 <li id="section">
+                    <a href="/ProjectManager/Projects"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>My Project</span> </a>
+                 </li>
+                <li id="section">
+                    <a href="/ProjectManager/Developers"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Developer</span> </a>
+                </li>
+                 <li id="section">
+                     <a href="/Home/Future"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Report</span> </a>
+                 </li>
+                <!--End Project Manager work space-->
+           }
+        }
+       @{
+           if (userRoles.Contains("TesterWorkSpace"))
+           {
+               <!--Tester Work Space-->
+            <li id="section" class="dropdown">
+                <a href="/Tester/Bugs" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Bugs</span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li role="presentation"><a href="/Tester/Bugs">My Bug</a></li>
+                    <li role="presentation"><a href="/Tester/Bugs/Inprocess">Inprocess Bug</a></li>
+                    <li role="presentation"><a href="/Tester/Bugs/CreateBug">Create Bug</a></li>
+                </ul>
+            </li>
+        <!--End Tester Work Space-->
+           }
+        }
+        @{
+            if (userRoles.Contains("DeveloperWorkSpace"))
+            {
+                 <!--Developer Work Space-->
+                <li id="section" class="dropdown">
+                    <a href="/Tester/Bugs" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"> </i> <span>Developer</span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="/Developer/Bugs">My Bug</a></li>
+                        <li role="presentation"><a href="/Developer/Projects">My Project</a></li>
+                    </ul>
+                </li>
+        <!--End Developer Work Space-->
+            }
+        }
+    </ul>
+</div>
+<!--
+     <li class="dropdown pull-right">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i></a>
+         <ul class="dropdown-menu dropdown-menu-left" role="menu">
+             <li role="presentation"><a href="#">My Info</a></li>
+             <li role="presentation"><a href="#">Logout</a></li>
+         </ul>
+     </li>    
+-->

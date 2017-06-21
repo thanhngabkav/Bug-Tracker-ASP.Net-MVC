@@ -1,0 +1,63 @@
+﻿@model Models.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserGroupID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserGroupID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+   @{
+       string editLink = "/Admin/Users/Edit?userID=" + Model.UserID.Trim();
+       string deleteLink = "/Admin/Users/Delete?userID=" + Model.UserID.Trim();
+}
+    <a href=@editLink class="btn btn-success"> Edit</a>
+    <a href=@deleteLink class="btn btn-warning"> Delete</a>
+
+</p>

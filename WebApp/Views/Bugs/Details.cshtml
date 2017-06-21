@@ -1,0 +1,106 @@
+﻿@model Models.Bug
+@using WebApp.Models;
+@using BusinessLogic;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bug Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            DetectionTime
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DetectionTime)
+        </dd>
+
+        <dt>
+            Owner
+        </dt>
+        
+        <dd>
+         
+            @{
+                BusinessLogic.UserBL userBL = new BusinessLogic.UserBL();
+                Models.User currentuser = userBL.GetUserByID(((UserSession)Session[UserSession.SessionName]).UserID);
+                if (Model.Owner != null)
+                {
+                    Models.User user = userBL.GetUserByID(Model.Owner);
+                    string userDetailsUrl = "Account/Details/" + Model.Owner.Trim();
+                    <a href=@userDetailsUrl>@user.UserName</a>
+                }else
+                {
+                    <a>Not Found</a>
+                }
+
+            }
+           
+        </dd>
+        
+        <dt>
+            Description
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            Priority
+        </dt>
+        @{
+            BusinessLogic.BugPriorityBL priorityBL = new BusinessLogic.BugPriorityBL();
+            Models.BugPriority priority = priorityBL.GetBugPriorityByID(Model.PriorityID);
+        }
+        <dd>
+            @priority.PriorityName
+        </dd>
+
+        <dt>
+            Project
+        </dt>
+        @{
+            BusinessLogic.ProjectBL projectBL = new BusinessLogic.ProjectBL();
+            Models.Project project = projectBL.GetProjectById(Model.ProjectID);
+        }
+        <dd>
+            @project.Name
+        </dd>
+
+        <dt>
+            Status
+        </dt>
+        @{
+            BusinessLogic.BugStatusBL bugStatusBL = new BusinessLogic.BugStatusBL();
+            Models.BugStatus bugStatus = bugStatusBL.GetBugStatusByID(Model.StatusID);
+        }
+        <dd>
+            @bugStatus.StatusName
+        </dd>
+
+    </dl>
+</div>
+@{
+    string detailsLink = "/Bugs/Details?bugID=" + Model.BugID.Trim();
+    string processLink = "/Developer/Bugs/SendProcessingRequest?bugID=" + Model.BugID.Trim();
+    string editLink = "/Tester/Bugs/EditBug?bugID=" + Model.BugID.Trim();
+    string deleteLink = "/Tester/Bugs/DeleteBug?bugID=" + Model.BugID.Trim();
+}
+<p>
+    @if (currentuser.UserGroupID == 4)
+    {
+        <a href=@processLink class="btn btn-success btn-sm"> ReTest</a>
+    }
+    @if (currentuser.UserGroupID == 3)
+    {
+        <a href=@editLink class="btn btn-info btn-sm"> Edit</a>
+        <a href=@deleteLink class="btn btn btn-sm"> Delete</a>
+    }
+   
+</p>
+

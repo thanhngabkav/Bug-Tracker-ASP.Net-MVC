@@ -1,0 +1,74 @@
+﻿@model Models.User
+
+@{
+    ViewBag.Title = "MyAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    dt{
+        text-align:left;
+        color:red;
+    }
+</style>
+<h2>My Account</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Full Name :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            User Name :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            Email :
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            Phone Number : 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            User Group :
+        </dt>
+        @{ 
+            BusinessLogic.UserGroupBL userGroupBL = new BusinessLogic.UserGroupBL();
+            Models.UserGroup userGroup = userGroupBL.GetUserGroupByUserGroupID(Model.UserGroupID);
+        }
+        <dd>
+            @userGroup.UserGroupName
+        </dd>
+
+    </dl>
+</div>
+<div id="future">
+
+</div>
+<form action="/Account/Edit?id=?" + @Model.UserID>
+    <button type="button" class="btn btn-primary" onclick="futureFunc()">Update</button>
+</form>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    function futureFunc() {
+        $('#future').html("<span class='text-info'>Chức Năng Đang Hoàn Thiện</span>")
+    }
+</script>

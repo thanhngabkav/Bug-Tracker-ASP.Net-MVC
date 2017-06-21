@@ -1,0 +1,92 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Models.Bug>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Project's Bug</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            DetectionTime
+        </th>
+        <th>
+            Owner
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Priority
+        </th>
+        <th>
+            Project
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetectionTime)
+            </td>
+            @{
+                string ow = "";
+                if (item.Owner != null)
+                {
+                    ow = item.Owner;
+                }
+                else
+                {
+                    ow = "Not Found";
+                }
+            }
+            <td>
+                @ow
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @{
+                BusinessLogic.BugPriorityBL priorityBL = new BusinessLogic.BugPriorityBL();
+                Models.BugPriority priority = priorityBL.GetBugPriorityByID(item.PriorityID);
+            }
+            <td>
+                @priority.PriorityName
+            </td>
+            @{
+                BusinessLogic.ProjectBL projectBL = new BusinessLogic.ProjectBL();
+                Models.Project project = projectBL.GetProjectById(item.ProjectID);
+            }
+            <td>
+                @project.Name
+            </td>
+            @{
+                BusinessLogic.BugStatusBL bugStatusBL = new BusinessLogic.BugStatusBL();
+                Models.BugStatus bugStatus = bugStatusBL.GetBugStatusByID(item.StatusID);
+            }
+            <td>
+                @bugStatus.StatusName
+            </td>
+        </tr>
+   }
+
+</table>
+<div class="col-md-12 text-center">
+   
+    @{ if (Model.Count>0)
+        {
+            string projectid = Model[0].ProjectID;
+            @Html.PagedListPager(Model, newPage => Url.Action("Project", new { projectID = projectid, page = newPage }))
+        }        
+    }
+    
+</div>

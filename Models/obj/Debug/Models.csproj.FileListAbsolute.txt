@@ -1,0 +1,10 @@
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\Models.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\Models.pdb
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\obj\Debug\Models.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\obj\Debug\Models.pdb
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\Models.dll.config
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\EntityFramework.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\EntityFramework.SqlServer.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\EntityFramework.xml
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\bin\Debug\EntityFramework.SqlServer.xml
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache

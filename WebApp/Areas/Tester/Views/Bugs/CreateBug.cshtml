@@ -1,0 +1,74 @@
+﻿@model Models.Bug
+
+@{
+    ViewBag.Title = "CreateBug";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3 class="text-danger">@ViewBag.ErrorMess</h3>
+<h2 class="text-info">Create Bug</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DetectionTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DetectionTime, new { htmlAttributes = new { @class = "form-control",@type ="datetime-local" } })
+                @Html.ValidationMessageFor(model => model.DetectionTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Owner, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    BusinessLogic.UserBL userBL = new BusinessLogic.UserBL();
+                    WebApp.Models.UserSession UserSession = (WebApp.Models.UserSession)Session[WebApp.Models.UserSession.SessionName];
+                }
+                <input type="text" class="form-control" id="Owner" name="Owner" disabled value=@UserSession.UserName />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PriorityID, "Piority", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PriorityID", (SelectList)ViewBag.PriorityID, htmlAttributes : new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.PriorityID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectID,"Project", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProjectID", (SelectList)ViewBag.ProjectID,  htmlAttributes : new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StatusID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StatusID", (SelectList)ViewBag.StatusID,  htmlAttributes : new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.StatusID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+ }

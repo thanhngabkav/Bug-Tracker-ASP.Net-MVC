@@ -1,0 +1,14 @@
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\obj\Debug\BusinessLogic.csprojResolveAssemblyReference.cache
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\BusinessLogic.dll.config
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\BusinessLogic.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\BusinessLogic.pdb
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\EntityFramework.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\EntityFramework.SqlServer.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\Models.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\Models.pdb
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\EntityFramework.xml
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\bin\Debug\EntityFramework.SqlServer.xml
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\obj\Debug\BusinessLogic.dll
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\obj\Debug\BusinessLogic.pdb
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\obj\Debug\BusinessLogic.Migrations.Initial.resources
+H:\HK2_2016\WEB NC\Project\WebAdvanceAssignment\BusinessLogic\obj\Debug\BusinessLogic.csproj.GenerateResource.Cache

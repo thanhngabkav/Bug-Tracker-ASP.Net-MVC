@@ -1,0 +1,77 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.UserGroup</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            FullName
+        </th>
+        <th>
+            UserName
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            UserGroup
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            @{
+                BusinessLogic.UserGroupBL userGroupBL = new BusinessLogic.UserGroupBL();
+                Models.UserGroup userGroup = userGroupBL.GetUserGroupByUserGroupID(item.UserGroupID);
+            }
+            <td>
+                @userGroup.UserGroupName
+            </td>
+            @{
+                string editLink = "/Admin/Users/Edit?userID=" + item.UserID.Trim();
+                string detailsLink = "/Admin/Users/Details?userID=" + item.UserID.Trim();
+                string deleteLink = "/Admin/Users/DeleteUser?userID=" + item.UserID.Trim();
+                string addProjectLink = "/Admin/Projects/AddProject?managerID=" + item.UserID.Trim();
+            }
+            <td>
+                <a href=@editLink class="btn btn-info btn-xs"> Edit</a>
+                <a href=@detailsLink class="btn btn-info btn-xs"> Details</a>
+                <a href=@deleteLink class="btn btn-info btn-xs"> Delete</a>
+                @if (item.UserGroupID == 2)//manager
+                {
+                    <a href=@addProjectLink class="btn btn-success btn-xs"> Add Project</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="col-md-12 text-center">
+
+    @Html.PagedListPager(Model, newPage => Url.Action("UserGroup", new { userGroupID = ViewBag.UserGroupID, page = newPage }))
+</div>

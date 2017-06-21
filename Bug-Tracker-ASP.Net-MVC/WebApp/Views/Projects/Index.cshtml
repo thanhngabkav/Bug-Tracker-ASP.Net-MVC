@@ -1,0 +1,83 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@using Models;
+@using WebApp.Models;
+@using BusinessLogic;
+@model IPagedList<Models.Project>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Projects</h2>
+
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>
+            <label for="ProjectName" class="control-label "> Name </label>
+        </th>
+        <th>
+            <label for="Description" class="control-label "> Description </label>
+        </th>
+        <th>
+            <label for="Manager" class="control-label "> Manager </label>
+        </th>
+        <th>
+            <label for="InitTime" class="control-label "> Init Time </label>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            @{
+                BusinessLogic.UserBL userBL = new BusinessLogic.UserBL();
+            }
+            <td>
+                @{
+                    string managerDetailUrl = "/Acount/Details/" + item.ManagerID.Trim();
+                }
+                <a href=@managerDetailUrl> @userBL.GetUserByID(item.ManagerID).UserName</a>
+            </td>
+            <td>
+                @item.InitTime
+            </td>
+            <td>
+                @{
+                    string detailsLink = "/Projects/Details?projectID=" + item.ProjectID.Trim();
+                    string bugsLink = "/Projects/Bugs?projectID=" + item.ProjectID;
+                    string addAllotProjectink = "/ProjectManager/Projects/AddAllotProject?projectID=" + item.ProjectID.Trim();
+                    string allotDeveloperLink = "/Projects/AllotedDeveper?projectID="+item.ProjectID.Trim();
+                    string addBugLink = "/Tester/Bugs/AddBug?projectID=" + item.ProjectID.Trim();
+                    <a class="btn btn-xs btn-info" href=@detailsLink>Details</a>
+                    if ((UserSession)Session[UserSession.SessionName] != null)
+                    {
+                        User user = userBL.GetUserByID(((UserSession)Session[UserSession.SessionName]).UserID);
+                        if (user.UserGroupID == 2)
+                        {
+                            <a class="btn btn-xs btn-success" href=@addAllotProjectink>Add Deve</a>
+                            <a class="btn btn-xs btn-warning" href=@allotDeveloperLink>Alloted Dev</a>
+                        }
+                        <a class="btn btn-xs btn-danger" href=@bugsLink>Bugs</a>
+                        if (user.UserGroupID == 3)
+                        {
+                            <a class="btn btn-xs btn-warning" href=@addBugLink>AddBug</a>
+                        }
+                    }
+                }
+            </td>
+
+        </tr>
+}
+
+</table>
+<div class="col-md-12 text-center">
+    @Html.PagedListPager(Model, newPage => Url.Action("Index", new { page = newPage }))
+</div>

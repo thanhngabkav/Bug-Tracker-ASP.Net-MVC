@@ -1,0 +1,67 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<Models.Project>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a class="btn btn-success" href="/Admin/Projects/CreateProject">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label for="ProjectName" class="control-label "> Project </label>
+        </th>
+        <th>
+            <label for="Description" class="control-label "> Description </label>
+        </th>
+        <th>
+            <label for="Manager" class="control-label" > Manager </label>
+        </th>
+        <th>
+            <label for="InitTime" class="control-label "> Init Time </label>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td id="description">
+                @item.Description
+            </td>
+            @{
+                BusinessLogic.UserBL userBL = new BusinessLogic.UserBL();
+            }
+            <td>
+                @{
+                    string managerDetailUrl = "/Account/Details/?userID=" + item.ManagerID.Trim();
+                }
+                <a href=@managerDetailUrl> @userBL.GetUserByID(item.ManagerID).UserName</a>
+            </td>
+            <td>
+                @item.InitTime
+            </td>
+            <td>
+                @{ 
+                    string bugsLink = "/Bugs/Project/?projectID=" + item.ProjectID.Trim();
+                    string editLink = "/Admin/Projects/EditProject/?projectID=" + item.ProjectID.Trim();
+                    string deleteLink = "/Admin/Projects/DeleteProject/?projectID=" + item.ProjectID.Trim();
+                }
+              
+                <a href=@bugsLink class="btn btn-danger btn-xs">Bugs</a>
+                <a href=@editLink class="btn btn-primary btn-xs">Edit</a>
+                <a href=@deleteLink class="btn btn-primary btn-xs">Delete</a>
+            </td>
+        </tr>
+                    }
+
+</table>
+<div class="col-md-12 text-center">
+    @Html.PagedListPager(Model, newPage => Url.Action("Index", new { page = newPage }))
+</div>

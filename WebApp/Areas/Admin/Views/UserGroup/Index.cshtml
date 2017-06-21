@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Models.UserGroup>
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p>
+    <a class="btn btn-success" href="/Home/Future">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserGroupName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserGroupName)
+        </td>
+        <td>
+            <a class="btn btn-primary" href="/Home/Future">Details</a>
+            <a class="btn btn-primary" href="/Home/Future">Edit</a>
+            <a class="btn btn-primary" href="/Home/Future">Detele</a>
+        </td>
+    </tr>
+}
+
+</table>
